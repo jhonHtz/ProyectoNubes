@@ -1,0 +1,166 @@
+// The Dropdown wrapper (`<div>`)
+.dropup,
+.dropright,
+.Dropdown,
+.dropleft {
+  position: relative;
+}
+
+.Dropdown-toggle {
+  // Generate the caret automatically
+  @include caret;
+}
+
+// The Dropdown menu
+.Dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: $zindex-Dropdown;
+  display: none; // none by default, but block on "open" of the menu
+  float: left;
+  min-width: $Dropdown-min-width;
+  padding: $Dropdown-padding-y 0;
+  margin: $Dropdown-spacer 0 0; // override default ul
+  font-size: $font-size-base; // Redeclare because nesting can cause inheritance issues
+  color: $body-color;
+  text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
+  list-style: none;
+  background-color: $Dropdown-bg;
+  background-clip: padding-box;
+  border: $Dropdown-border-width solid $Dropdown-border-color;
+  @include border-radius($Dropdown-border-radius);
+  @include box-shadow($Dropdown-box-shadow);
+}
+
+.Dropdown-menu-right {
+  right: 0;
+  left: auto;
+}
+
+// Allow for Dropdowns to go bottom up (aka, dropup-menu)
+// Just add .dropup after the standard .Dropdown class and you're set.
+.dropup {
+  .Dropdown-menu {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: $Dropdown-spacer;
+  }
+
+  .Dropdown-toggle {
+    @include caret(up);
+  }
+}
+
+.dropright {
+  .Dropdown-menu {
+    top: 0;
+    right: auto;
+    left: 100%;
+    margin-top: 0;
+    margin-left: $Dropdown-spacer;
+  }
+
+  .Dropdown-toggle {
+    @include caret(right);
+    &::after {
+      vertical-align: 0;
+    }
+  }
+}
+
+.dropleft {
+  .Dropdown-menu {
+    top: 0;
+    right: 100%;
+    left: auto;
+    margin-top: 0;
+    margin-right: $Dropdown-spacer;
+  }
+
+  .Dropdown-toggle {
+    @include caret(left);
+    &::before {
+      vertical-align: 0;
+    }
+  }
+}
+
+// When enabled Popper.js, reset basic Dropdown position
+// stylelint-disable no-duplicate-selectors
+.Dropdown-menu {
+  &[x-placement^="top"],
+  &[x-placement^="right"],
+  &[x-placement^="bottom"],
+  &[x-placement^="left"] {
+    right: auto;
+    bottom: auto;
+  }
+}
+// stylelint-enable no-duplicate-selectors
+
+// Dividers (basically an `<hr>`) within the Dropdown
+.Dropdown-divider {
+  @include nav-divider($Dropdown-divider-bg);
+}
+
+// Links, buttons, and more within the Dropdown menu
+//
+// `<button>`-specific styles are denoted with `// For <button>s`
+.Dropdown-item {
+  display: block;
+  width: 100%; // For `<button>`s
+  padding: $Dropdown-item-padding-y $Dropdown-item-padding-x;
+  clear: both;
+  font-weight: $font-weight-normal;
+  color: $Dropdown-link-color;
+  text-align: inherit; // For `<button>`s
+  white-space: nowrap; // prevent links from randomly breaking onto new lines
+  background-color: transparent; // For `<button>`s
+  border: 0; // For `<button>`s
+
+  @include hover-focus {
+    color: $Dropdown-link-hover-color;
+    text-decoration: none;
+    @include gradient-bg($Dropdown-link-hover-bg);
+  }
+
+  &.active,
+  &:active {
+    color: $Dropdown-link-active-color;
+    text-decoration: none;
+    @include gradient-bg($Dropdown-link-active-bg);
+  }
+
+  &.disabled,
+  &:disabled {
+    color: $Dropdown-link-disabled-color;
+    background-color: transparent;
+    // Remove CSS gradients if they're enabled
+    @if $enable-gradients {
+      background-image: none;
+    }
+  }
+}
+
+.Dropdown-menu.show {
+  display: block;
+}
+
+// Dropdown section headers
+.Dropdown-header {
+  display: block;
+  padding: $Dropdown-padding-y $Dropdown-item-padding-x;
+  margin-bottom: 0; // for use with heading elements
+  font-size: $font-size-sm;
+  color: $Dropdown-header-color;
+  white-space: nowrap; // as with > li > a
+}
+
+// Dropdown text
+.Dropdown-item-text {
+  display: block;
+  padding: $Dropdown-item-padding-y $Dropdown-item-padding-x;
+  color: $Dropdown-link-color;
+}
